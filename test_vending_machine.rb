@@ -1,7 +1,6 @@
 
   require_relative "vending_machine"
   require "minitest/autorun"
-  require "stringio"
 
   describe VendingMachine, "Testing out Vending Machine" do
 
@@ -18,11 +17,24 @@
   describe "when customer hits return change" do
     it "must return all change" do
         @vending_machine.return_change()
-        @vending_machine.inserted_money().must_equal "You have inserted $0"
+        @vending_machine.inserted_money().must_equal "You have inserted $0.00"
         @vending_machine.show_status_message().must_equal "INSERT COINS" 
     end
   end
  
+  describe "customer selects an item" do
+    it "must despense item and display THANK YOU" do
+      4.times do 
+        @vending_machine.insert("quarter")
+      end
+      @vending_machine.inserted_money().must_equal("You have inserted $1.00")
+      @vending_machine.select_item("cola")
+      @vending_machine.show_status_message().must_equal "THANK YOU"
+      @vending_machine.inserted_money().must_equal "You have inserted $0.00"
+    end
+  end
+  
+    
  
   describe "when inserting valid coins" do
       it "must respond with coin inserted" do

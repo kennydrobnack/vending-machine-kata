@@ -26,12 +26,25 @@ class VendingMachine
     @status_message = "INSERT COINS"
   end
   
+  def format_money (amount)
+    return sprintf("$%#.2f", amount)
+  end
+  
   def select_item (item)
-    
+    if (@product_prices[item].nil?)
+      return "Unknown item #{item}. Please pick one of " . join(" ", @product_prices.keys)
+    elsif (@product_prices[item] > @inserted_money)
+      return "Price: $#{format_money(@product_price[item])}"
+    else
+      @inventory[item] = @inventory[item] - 1
+      @inserted_money -= @product_prices[item]
+      self.return_change
+      @status_message = "THANK YOU"
+    end
   end
   
   def inserted_money
-    msg = "You have inserted $#{@inserted_money}"
+    msg = "You have inserted #{format_money(@inserted_money)}"
     puts msg
     return msg
   end
@@ -71,6 +84,7 @@ class VendingMachine
     if (cents.nil?)
       return "You have inserted an unknown coin. This machine only takes nickels, dimes, and quarters"
     else
+      @inserted_money = @inserted_money +  (cents * 0.01)
       return "You have inserted " + cents.to_s + " cents"
     end
   end
