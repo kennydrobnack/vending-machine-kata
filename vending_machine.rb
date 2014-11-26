@@ -3,6 +3,7 @@ class VendingMachine
   
   def initialize
     @inserted_money = 0.00
+    @coin_return = 0.00
     @available_change = {
       "nickel" => 10,
       "dime" => 10,
@@ -43,14 +44,24 @@ class VendingMachine
     end
   end
   
-  def inserted_money
+  def coin_return_amount
+    return @coin_return
+  end
+  
+  def coin_return_message
+    return "Amount in coin return #{format_money(@coin_return)}"
+  end
+  
+  def inserted_money_amount
+    return @inserted_money
+  end
+  
+  def inserted_money_message
     msg = "You have inserted #{format_money(@inserted_money)}"
-    puts msg
     return msg
   end
   
   def show_status_message
-    puts @status_message
     return @status_message
   end
   
